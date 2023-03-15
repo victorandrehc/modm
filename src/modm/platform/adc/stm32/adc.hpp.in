@@ -131,6 +131,42 @@ public:
 %% endif
 	};
 
+%% if target["family"] != "f1"
+	enum class ExternalTriggerPolarity
+	{
+		NoTriggerDetection = 0x0u,
+		RisingEdge = 0x1u,
+		FallingEdge = 0x2u,
+		RisingAndFallingEdge = 0x3u,
+	};
+%%endif
+
+	/**
+	 * Enum mapping all events on a external trigger converter.
+	 * The source mapped to each event varies on controller family,
+	 * refer to the ADC external trigger section on reference manual
+	 * of your controller for more information
+	 */
+	enum class RegularConversionExternalTrigger
+	{
+		Event0 = 0x0u,
+		Event1 = 0x1u,
+		Event2 = 0x2u,
+		Event3 = 0x3u,
+		Event4 = 0x4u,
+		Event5 = 0x5u,
+		Event6 = 0x6u,
+		Event7 = 0x7u,
+		Event8 = 0x8u,
+		Event9 = 0x9u,
+		Event10 = 0xAu,
+		Event11 = 0xBu,
+		Event12 = 0xCu,
+		Event13 = 0xDu,
+		Event14 = 0xEu,
+		Event15 = 0xFu,
+	};
+
 	/**
 	 * Possible interrupts.
 	 *
@@ -174,15 +210,6 @@ public:
 %% endif
 	};
 	MODM_FLAGS32(InterruptFlag);
-%% if target["family"] not in ["f1","f3"]
-	enum class EndOfConversionFlag
-	{
-		///EOC bit is set at the end of the sequence of regular conversions
-		SequenceConversions = 0u,
-		///EOC bit is set at the end of each regular conversion
-		EveryConversion = 1u,
-	};
-%%endif
 
 public:
 	// start inherited documentation
@@ -386,6 +413,20 @@ public:
 	static inline uintptr_t
 	getDataRegisterPointer();
 
+%% if target["family"] in ["f1","f3"]
+	static inline void
+	enableRegularConversionExternalTrigger(
+		RegularConversionExternalTrigger regularConversionExternalTrigger);
+
+%%endif
+%%if target["family"] not in ["f1","f3"]
+	static inline void
+	enableRegularConversionExternalTrigger(
+		ExternalTriggerPolarity externalTriggerPolarity,
+		RegularConversionExternalTrigger regularConversionExternalTrigger);
+
+%%endif
+
 %% if target["family"] not in ["f3"]
 	/**
 	 * Enable Dma mode for the ADC
@@ -422,14 +463,6 @@ public:
 	 */
 	static inline void
 	disableDMASelection();
-
-	/**
-	 * set end of conversion selection
-	 * @param endOfConversionFlag Flag stating the desired behavior
-	 * for the end of selection flag
-	 */
-	static inline void
-	setEndOfConversionSelection(EndOfConversionFlag endOfConversionFlag);
 
 %%endif
 	/**

@@ -258,6 +258,28 @@ modm::platform::Adc{{ id }}::getDataRegisterPointer()
 {
 	return (uintptr_t) &(ADC{{ per }}->DR);
 }
+%% if target["family"] in ["f1","f3"]
+	void
+	modm::platform::Adc{{ id }}::enableRegularConversionExternalTrigger(
+		RegularConversionExternalTrigger regularConversionExternalTrigger)
+{
+	const auto externalTrigger =
+		(static_cast<uint32_t>(regularConversionExternalTrigger) << ADC_CR2_EXTSEL_Pos);
+	ADC{{ per }}->CR2 |= externalTrigger;
+}
+%%else
+void
+modm::platform::Adc{{ id }}::enableRegularConversionExternalTrigger(
+	ExternalTriggerPolarity externalTriggerPolarity,
+	RegularConversionExternalTrigger regularConversionExternalTrigger)
+{
+	const auto polarity =
+		(static_cast<uint32_t>(externalTriggerPolarity) << ADC_CR2_EXTEN_Pos);
+	const auto externalTrigger =
+		(static_cast<uint32_t>(regularConversionExternalTrigger) << ADC_CR2_EXTSEL_Pos);
+	ADC{{ per }}->CR2 |= ( polarity | externalTrigger);
+}
+%%endif
 
 %% if target["family"] not in ["f3"]
 void
@@ -290,19 +312,6 @@ void
 modm::platform::Adc{{ id }}::disableDMASelection()
 {
 	ADC{{ per }}->CR2 &= ~ADC_CR2_DDS;
-}
-
-void
-modm::platform::Adc{{ id }}::setEndOfConversionSelection(EndOfConversionFlag endOfConversionFlag)
-{
-	if (endOfConversionFlag == EndOfConversionFlag::EveryConversion)
-	{
-		ADC{{ per }}->CR2 |= ADC_CR2_EOCS;
-	}
-	else
-	{
-		ADC{{ per }}->CR2 &= ~ADC_CR2_EOCS;
-	}
 }
 
 %%endif
