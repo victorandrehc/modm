@@ -27,7 +27,7 @@ modm::platform::Adc{{ id }}::initialize()
 	assertBaudrateInTolerance<result.frequency, frequency, tolerance >();
 
 	Rcc::enable<Peripheral::Adc{{id}}>();
-	ADC{{ per }}->CR2 |= ADC_CR2_ADON;			// switch on ADC
+	enable();  // switch on ADC
 
 	setPrescaler(Prescaler{result.index});
 }
@@ -163,6 +163,12 @@ modm::platform::Adc{{ id }}::disable()
 {
 	ADC{{ per }}->CR2 &= ~(ADC_CR2_ADON);		// switch off ADC
 	RCC->APB2ENR &= ~RCC_APB2ENR_ADC{{ per }}EN; // stop ADC Clock
+}
+
+void
+modm::platform::Adc{{ id }}::enable()
+{
+	ADC1->CR2 |= ADC_CR2_ADON;  // switch on ADC
 }
 
 void
