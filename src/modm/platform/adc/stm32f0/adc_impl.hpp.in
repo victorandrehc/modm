@@ -3,6 +3,7 @@
  * Copyright (c) 2018, Álan Crístoffer
  * Copyright (c) 2018, Carl Treudler
  * Copyright (c) 2019, Niklas Hauser
+ * Copyright (c) 2023, Daniel Waldhaeusl (Zuehlke Engineering)
  *
  * This file is part of the modm project.
  *
@@ -68,7 +69,7 @@ modm::platform::Adc{{ id }}::initialize()
 }
 
 void
-	modm::platform::Adc{{ id }}::enable()
+modm::platform::Adc{{ id }}::enable()
 {
 	ADC1->CR |= ADC_CR_ADEN;  // switch on ADC
 }
@@ -368,7 +369,7 @@ modm::platform::Adc{{ id }}::setWaitMode(const bool enable)
 }
 
 uintptr_t
-	modm::platform::Adc{{ id }}::getDataRegisterAddress()
+modm::platform::Adc{{ id }}::getDataRegisterAddress()
 {
 	return (uintptr_t) &(ADC1->DR);
 }
@@ -434,7 +435,7 @@ modm::platform::Adc{{ id }}::enableScanMode()
 	waitChannelConfigReady();
 
 	resetChannelConfigReady();
-	ADC1->CHSELR |= uint32_t(0xFFFFFFFF);
+	ADC1->CHSELR = uint32_t(0xFFFFFFFF);
 	waitChannelConfigReady();
 }
 

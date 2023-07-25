@@ -64,7 +64,7 @@ int main()
 
    // On STM32G0 Event1 means TIM1's channel 4 capture and compare event.
    // Each controller has a different trigger mapping, check the reference
-   // manual to more information on the trigger mapping of yours controller.
+   // manual for more information on the trigger mapping of your controller.
    Adc1::enableRegularConversionExternalTrigger(Adc1::ExternalTriggerPolarity::FallingEdge,
 												Adc1::RegularConversionExternalTrigger::Event1);
 
