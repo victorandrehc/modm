@@ -257,6 +257,14 @@ public:
 		TIM{{ id }}->CNT = value;
 	}
 
+%% if id in [15, 16, 17]
+	static inline void
+	setRepetitionCount(uint8_t repetitionCount)
+	{
+		TIM{{ id }}->RCR = repetitionCount;
+	}
+%% endif
+
 
 %% if target.family not in ["l0", "l1"] and id in [15, 16, 17]
 	static inline bool
