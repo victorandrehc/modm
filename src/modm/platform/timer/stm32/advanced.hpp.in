@@ -260,6 +260,31 @@ public:
 	{
 		return (TIM{{ id }}->BDTR & TIM_BDTR_MOE);
 	}
+	
+	static inline void
+	enableBreakInput()
+	{
+		TIM{{ id }}->AF1 |= TIM{{ id }}_AF1_BKINE;
+	}
+
+	static inline void
+	disableBreakInput()
+	{
+		TIM{{ id }}->AF1 &= ~(TIM{{ id }}_AF1_BKINE);
+	}
+
+	static inline void
+	setBreakPolarity(BreakInputPolarity polarity)
+	{
+		if (BreakInputPolarity::ActiveLow == polarity)
+		{
+			TIM{{ id }}->BDTR &= ~(TIM_BDTR_BKP);
+		}
+		else
+		{
+			TIM{{ id }}->BDTR |= TIM_BDTR_BKP;
+		}
+	}
 
 	/*
 	 * Enable/Disable automatic set of MOE bit at the next update event
