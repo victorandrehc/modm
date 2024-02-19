@@ -368,6 +368,7 @@ modm::platform::Adc{{ id }}::setWaitMode(const bool enable)
 	}
 }
 
+%% if target.family in ["g0"]
 uintptr_t
 modm::platform::Adc{{ id }}::getDataRegisterAddress()
 {
@@ -489,3 +490,4 @@ modm::platform::Adc{{ id }}::addChannel(const Channel channel)
 	waitChannelConfigReady();
 	return true;
 }
+%% endif

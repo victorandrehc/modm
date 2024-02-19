@@ -344,6 +344,7 @@ public:
 	static inline void
 	acknowledgeInterruptFlags(InterruptFlag_t flags);
 
+%% if target.family in ["g0"]
 	static inline uintptr_t
 	getDataRegisterAddress();
 
@@ -413,6 +414,7 @@ public:
 	 */
 	static inline void
 	disableScanMode();
+%% endif
 
 public:
 	static constexpr uint8_t TS_CAL1_TEMP{30};
