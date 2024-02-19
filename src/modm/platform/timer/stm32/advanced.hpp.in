@@ -260,7 +260,7 @@ public:
 	{
 		return (TIM{{ id }}->BDTR & TIM_BDTR_MOE);
 	}
-	
+%% if target.family in ["g0"]	
 	static inline void
 	enableBreakInput()
 	{
@@ -285,6 +285,7 @@ public:
 			TIM{{ id }}->BDTR |= TIM_BDTR_BKP;
 		}
 	}
+%% endif
 
 	/*
 	 * Enable/Disable automatic set of MOE bit at the next update event
