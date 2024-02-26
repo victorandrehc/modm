@@ -260,7 +260,19 @@ public:
 	{
 		return (TIM{{ id }}->BDTR & TIM_BDTR_MOE);
 	}
-%% if target.family in ["g0"]	
+%% if target.family in ["g0"]
+	static inline void
+	enableBreak()
+	{
+		TIM{{ id }}->BDTR |= TIM_BDTR_BKE;
+	}
+
+	static inline void
+	disableBreak()
+	{
+		TIM{{ id }}->BDTR &= ~(TIM_BDTR_BKE);
+	}
+
 	static inline void
 	enableBreakInput()
 	{
