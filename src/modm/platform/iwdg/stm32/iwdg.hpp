@@ -46,6 +46,11 @@ public:
 	};
 
 public:
+	static inline void
+	initialize(Prescaler prescaler, uint16_t reload)
+	{
+		configure(prescaler, reload);
+	}
 	template< class SystemClock, milliseconds_t timeout, percent_t tolerance=pct(1) >
 	static void
 	initialize()
