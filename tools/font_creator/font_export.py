@@ -152,7 +152,7 @@ def read_font_file(filename):
 				if c == " ":
 					pass
 				elif c == "#":
-					y = char_line_index / 8
+					y = int(char_line_index / 8)
 					offset = y * char.width
 					char.data[offset + index] |= 1 << (char_line_index % 8)
 				else:
