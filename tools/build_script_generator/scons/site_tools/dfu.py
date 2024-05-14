@@ -27,7 +27,8 @@ from SCons.Script import *
 # -----------------------------------------------------------------------------
 def program_dfu(env, source):
 	delay = ARGUMENTS.get("delay", "5")
-	actionString  = 'dfu-util -v -E{} -R -i 0 -a 0 -s 0x08000000:leave -D $SOURCE'.format(delay)
+	flash_address = env.get("CONFIG_FLASH_ADDRESS", 0x08000000)
+	actionString  = 'dfu-util -v -E{} -R -i 0 -a 0 -s {}:leave -D $SOURCE'.format(delay, flash_address)
 	return env.AlwaysBuildAction(actionString, "$PROGRAM_DFU_COMSTR", source)
 
 # -----------------------------------------------------------------------------

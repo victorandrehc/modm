@@ -118,6 +118,8 @@ def post_build(env):
     if subs["core"].startswith("cortex-m"):
         # get memory information
         subs["memories"] = env.query("::memories")
+        subs["flash_offset"] = env.get(":platform:cortex-m:linkerscript.flash_offset", 0)
+        subs["flash_address"] = hex(0x08000000 + subs["flash_offset"])
     else:
         subs["memories"] = []
     # Set these substitutions for all templates
