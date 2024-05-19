@@ -135,6 +135,12 @@ env.Append(MODM_GDBINIT_OPENOCD = "$BASEPATH/modm/gdbinit_openocd")
 env.Append(MODM_GDBINIT_JLINK = "$BASEPATH/modm/gdbinit_jlink")
 env.Append(MODM_GDBINIT_BMP = "$BASEPATH/modm/gdbinit_bmp")
 env.Append(MODM_GDB_COMMANDS = ["dir $GCC_PATH", "modm_setup_tui"])
+
+%% if core.startswith("cortex-m")
+env["CONFIG_FLASH_OFFSET"] = {{ flash_offset }}
+env["CONFIG_FLASH_ADDRESS"] = {{ flash_address }}
+%% endif
+
 %% if platform == "sam"
 %% if bossac_offset
 env.Append(MODM_BOSSAC_OFFSET = {{ bossac_offset }})

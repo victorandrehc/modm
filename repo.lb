@@ -18,9 +18,11 @@ import hashlib
 import platform
 
 from pathlib import Path
-from distutils.version import StrictVersion
 from git import Repo
 from os.path import normpath
+
+def StrictVersion(v):
+    return tuple(map(int, (v.split("."))))
 
 # Check for miminum required lbuild version
 import lbuild

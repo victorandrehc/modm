@@ -70,12 +70,6 @@ define rerun
   continue
 end
 
-define restart
-  # DEPRECATED: 2024q1
-  printf "The `restart` command is deprecated. Use `reset` instead!\n"
-  reset
-end
-
 set print pretty
 set print asm-demangle on
 set mem inaccessible-by-default off
